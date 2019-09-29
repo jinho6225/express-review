@@ -7,33 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurants: [
-        {
-          "id": 1,
-          "restaurant_name": "Howlin Rays",
-          "rating": 5
-        },
-        {
-          "id": 2,
-          "restaurant_name": "Mariscos Jalisco",
-          "rating": 5
-        },
-        {
-          "id": 3,
-          "restaurant_name": "Hummus Factory",
-          "rating": 4
-        },
-        {
-          "id": 4,
-          "restaurant_name": "Joy",
-          "rating": 4
-        },
-        {
-          "id": 5,
-          "restaurant_name": "Rustic Canyon",
-          "rating": 5
-        }
-      ]
+      restaurants: []
     }
     this.getRestaurants = this.getRestaurants.bind(this);
     this.deleteRestaurant = this.deleteRestaurant.bind(this);
@@ -43,14 +17,31 @@ class App extends React.Component {
 
   getRestaurants() {
     // TODO
+    axios.get('/restaurants')
+      .then((response) => {
+        this.setState({
+          restaurants: response.data
+        })
+      })
+      .catch((err) => console.log(err))
+
   }
 
-  deleteRestaurant() {
+  deleteRestaurant(index) {
     // TODO
+    axios.delete(`/restaurants/${index}`)
+    .then(() => this.getRestaurants())
+    .catch((err) => console.log(err))
   }
 
-  addRestaurant() {
+  addRestaurant(restaurant) {
     // TODO
+    axios.post('/restaurants', {
+      name: restaurant.name,
+      rating: restaurant.rating
+    })
+    .then(() => this.getRestaurants())
+    .catch((err) => console.log(err))
   }
 
   componentDidMount() {
@@ -63,13 +54,18 @@ class App extends React.Component {
       <div className="body">
         <div className="heading">Welp!</div>
         {this.state.restaurants.length ?
-          <RestaurantList restaurants={this.state.restaurants} />
+          <RestaurantList
+          deleteRestaurant={this.deleteRestaurant}
+          restaurants={this.state.restaurants} />
           :
           <div className="error">Fix your get request!</div>}
-        <AddRestaurantForm />
+        <AddRestaurantForm
+        addRestaurant={this.addRestaurant}
+        />
       </div>
     )
   }
 }
+
 
 export default App;
