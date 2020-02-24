@@ -14,7 +14,6 @@ const controllers = {
     }
   },
   postOne: ({ body }, res) => {
-      console.log(body)
     var id = restaurants[restaurants.length-1].id+1
     if (body.restaurant_name && body.rating) {
       restaurants.push({

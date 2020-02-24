@@ -8,7 +8,6 @@ class Form extends React.Component {
       rating: 1
     }
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(e) {
@@ -17,12 +16,10 @@ class Form extends React.Component {
     })
   }
 
-  handleSubmit() {
-    // TODO
-  }
-
 
   render() {
+    const { addRestaurant } = this.props
+    const { name, rating } = this.state
     return (
       <div>
         <div className="formTitle">Add a Restaurant</div>
@@ -48,7 +45,14 @@ class Form extends React.Component {
               <option>5</option>
             </select>
           </div>
-          <div><button>Submit</button></div>
+          <div><button onClick={(e) => {
+            e.preventDefault()
+            addRestaurant(name, rating)
+            this.setState({
+              name: '',
+              rating: 1
+            })
+          }} >Submit</button></div>
         </div>
       </div>
     )
