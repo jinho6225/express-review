@@ -26,6 +26,15 @@ const controllers = {
     } else {
       res.status(400).send('Invalid restaurant format');
     }
+  },
+  deleteOne: (req, res) => {
+    const index = req.params.id - 1
+    if (restaurants[index]) {
+      restaurants.splice(index, 1)
+      res.status(200).send(restaurants);
+    } else {
+      res.status(404).send(`No restaurant with id ${req.params.id}`)
+    }
   }
 
 }

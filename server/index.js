@@ -16,6 +16,7 @@ app.get('/restaurants', controllers.getAll)
 app.get('/restaurants/:id', controllers.getOne)
 
 app.post('/restaurants', controllers.postOne)
+app.delete('/restaurants/:id', controllers.deleteOne)
 
 
 app.listen(3003, () => console.log('3003 port is woking'))
