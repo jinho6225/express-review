@@ -15,6 +15,7 @@ app.use('/', express.static(path.join(__dirname, '../client/dist')))
 app.get('/restaurants', controllers.getAll)
 app.get('/restaurants/:id', controllers.getOne)
 
+app.post('/restaurants', controllers.postOne)
 
 
 app.listen(3003, () => console.log('3003 port is woking'))
