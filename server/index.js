@@ -1,25 +1,22 @@
 // TODO
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const controllers = require('./controllers.js')
-const app = express();
-const port = 3003;
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const path = require('path')
+const controllers = require('./controllers')
+const app = express()
 
-//middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(cors())
 
-//static
-app.use(express.static(__dirname + '/../client/dist/'))
+app.use('/', express.static(path.join(__dirname, '../client/dist')))
 
+app.get('/restaurants', controllers.getAll)
+app.get('/restaurants/:id', controllers.getOne)
 
-app.get('/restaurants', controllers.getAllRestaurants)
-app.get('/restaurants/:id', controllers.getOneRestaurant)
-
-app.post('/restaurants', controllers.postRestaurant)
-app.delete('/restaurants/:index', controllers.deleteRestaurant)
+app.post('/restaurants', controllers.postOne)
+app.delete('/restaurants/:id', controllers.deleteOne)
 
 
-app.listen(port, console.log(`${port} is listening`))
+app.listen(3003, () => console.log('3003 port is woking'))

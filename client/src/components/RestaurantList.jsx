@@ -6,6 +6,7 @@ const RestaurantList = ({ restaurants, deleteRestaurant }) => (
       <RestaurantListEntry
         deleteRestaurant={deleteRestaurant}
         restaurant={restaurant}
+        deleteRestaurant={deleteRestaurant}
         key={i}
         index={i}
       />

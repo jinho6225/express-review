@@ -4,7 +4,7 @@
   "description": "educational repo for practicing building a barebones express server",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "nodemon server/index.js",
     "build": "webpack -w"
   },
   "repository": {

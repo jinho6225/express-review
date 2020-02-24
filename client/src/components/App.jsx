@@ -7,41 +7,45 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurants: []
+      restaurants: [],
     }
     this.getRestaurants = this.getRestaurants.bind(this);
     this.deleteRestaurant = this.deleteRestaurant.bind(this);
     this.addRestaurant = this.addRestaurant.bind(this);
   }
 
-
   getRestaurants() {
     // TODO
     axios.get('/restaurants')
-      .then((response) => {
-        this.setState({
-          restaurants: response.data
-        })
-      })
-      .catch((err) => console.log(err))
-
-  }
-
-  deleteRestaurant(index) {
-    // TODO
-    axios.delete(`/restaurants/${index}`)
-    .then(() => this.getRestaurants())
-    .catch((err) => console.log(err))
-  }
-
-  addRestaurant(restaurant) {
-    // TODO
-    axios.post('/restaurants', {
-      name: restaurant.name,
-      rating: restaurant.rating
+    .then((response) => {
+      const { data } = response;
+      this.setState({ restaurants: data })
     })
-    .then(() => this.getRestaurants())
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
+  deleteRestaurant(id) {
+    // TODO
+    axios.delete(`/restaurants/${id}`)
+    .then((response) => {
+      this.getRestaurants()
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
+  addRestaurant(restaurant_name, rating) {
+    // TODO
+    axios.post(`/restaurants`, { restaurant_name, rating })
+    .then((response) => {
+      this.getRestaurants()
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }
 
   componentDidMount() {
@@ -54,18 +58,13 @@ class App extends React.Component {
       <div className="body">
         <div className="heading">Welp!</div>
         {this.state.restaurants.length ?
-          <RestaurantList
-          deleteRestaurant={this.deleteRestaurant}
-          restaurants={this.state.restaurants} />
+          <RestaurantList restaurants={this.state.restaurants} deleteRestaurant={this.deleteRestaurant} />
           :
           <div className="error">Fix your get request!</div>}
-        <AddRestaurantForm
-        addRestaurant={this.addRestaurant}
-        />
+        <AddRestaurantForm addRestaurant={this.addRestaurant} />
       </div>
     )
   }
 }
-
 
 export default App;
